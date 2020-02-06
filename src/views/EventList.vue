@@ -1,8 +1,6 @@
 <template>
   <div>
-    <h1>
-      Events Listing
-    </h1>
+    <h1>Events Listing</h1>
     <EventCard></EventCard>
   </div>
 </template>
@@ -17,3 +15,5 @@ export default {
   }
 }
 </script>
+
+<style scoped></style>

@@ -13,6 +13,11 @@ const routes = [
     component: EventList
   },
   {
+    path: '/event/create',
+    name: 'event-create',
+    component: EventCreate
+  },
+  {
     path: '/event/:id',
     name: 'event-show',
     // route level code-splitting
@@ -20,11 +25,6 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: EventShow,
     props: true
-  },
-  {
-    path: '/event/create',
-    name: 'event-create',
-    component: EventCreate
   }
 ]
 

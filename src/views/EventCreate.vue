@@ -1,7 +1,10 @@
 <template>
   <div>
-    <h1>Create Event, {{ userName }}</h1>
-    <p>This event was created by {{ userName }} ({{ userId }})</p>
+    <h1>Create Event, {{ user.name }}</h1>
+    <p>This event was created by {{ user.name }} ({{ user.id }})</p>
+    <ul>
+      <li v-for="category in categories" :key="category">{{ category }}</li>
+    </ul>
   </div>
 </template>
 
@@ -10,10 +13,10 @@ import { mapState } from 'vuex'
 
 export default {
   // Using the mapState to replace manually implementing computed properties.
+  // Strings to do mapping works nicely as well.
   computed: mapState({
-    userName: state => state.user.name,
-    userId: state => state.user.id,
-    categories: state => state.categories
+    user: 'user',
+    categories: 'categories'
   })
 }
 </script>

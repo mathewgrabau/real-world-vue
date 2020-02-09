@@ -2,6 +2,7 @@
   <div>
     <h1>Create Event, {{ user.name }}</h1>
     <p>This event was created by {{ user.name }} ({{ user.id }})</p>
+    <p>There are {{ categoriesLength }} categories available</p>
     <ul>
       <li v-for="category in categories" :key="category">{{ category }}</li>
     </ul>
@@ -16,6 +17,9 @@ export default {
   // Strings to do mapping works nicely as well.
   // The object spread operator is ... and it allows mixing the local and mapped
   computed: {
+    categoriesLength() {
+      return this.$store.getters.categoriesLength
+    },
     ...mapState(['user', 'categories'])
   }
 }

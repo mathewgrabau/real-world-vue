@@ -14,9 +14,6 @@ import { mapState } from 'vuex'
 export default {
   // Using the mapState to replace manually implementing computed properties.
   // Strings to do mapping works nicely as well.
-  computed: mapState({
-    user: 'user',
-    categories: 'categories'
-  })
+  computed: mapState(['user', 'categories'])
 }
 </script>

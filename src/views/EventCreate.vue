@@ -6,16 +6,14 @@
 </template>
 
 <script>
-// import { mapState } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
-  computed: {
-    userName() {
-      return this.$store.state.user.name
-    },
-    userId() {
-      return this.$store.state.user.id
-    }
-  }
+  // Using the mapState to replace manually implementing computed properties.
+  computed: mapState({
+    userName: state => state.user.name,
+    userId: state => state.user.id,
+    categories: state => state.categories
+  })
 }
 </script>

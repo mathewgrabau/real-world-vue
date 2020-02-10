@@ -31,8 +31,10 @@ export default new Vuex.Store({
   // NOTE: actions get dispatched from a component. The action takes care of committing the mutation.
   actions: {
     createEvent({ commit }, event) {
-      EventService.postEvent(event) // push it into the database here
-      commit('ADD_EVENT', event) // Commit the event
+      return EventService.postEvent(event).then(() => {
+        // push it into the database here
+        commit('ADD_EVENT', event) // Commit the event
+      })
     }
   },
   modules: {},

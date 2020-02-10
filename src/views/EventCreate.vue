@@ -73,7 +73,14 @@ export default {
   methods: {
     createEvent() {
       // Takes care of invoking the action needed to add the event into the database
-      this.$store.dispatch('createEvent', this.event)
+      this.$store
+        .dispatch('createEvent', this.event)
+        .then(() => {
+          this.event = this.createFreshEvent()
+        })
+        .catch(() => {
+          console.log('There was a problem creating your event')
+        })
     },
     createFreshEvent() {
       const user = this.$store.state.user

@@ -11,6 +11,7 @@ export default new Vuex.Store({
       name: 'Mathew Grabau'
     },
     events: [],
+    eventCount: 0,
     categories: [
       'sustainability',
       'nature',
@@ -28,6 +29,9 @@ export default new Vuex.Store({
     },
     SET_EVENTS(state, events) {
       state.events = events
+    },
+    SET_EVENT_COUNT(state, eventCount) {
+      state.eventCount = eventCount
     }
   },
   // Always want to put mutations inside actions (according to the core Vue team). Idea is to increase scalability of the codebase.
@@ -39,9 +43,13 @@ export default new Vuex.Store({
         commit('ADD_EVENT', event) // Commit the event
       })
     },
-    fetchEvents({ commit }) {
-      EventService.getEvents()
+    fetchEvents({ commit }, { perPage, currentPage }) {
+      EventService.getEvents(perPage, currentPage)
         .then(response => {
+          console.log(
+            'the total event count is ' + response.headers['x-total-count']
+          )
+          commit('SET_EVENT_COUNT', parseInt(response.headers['x-total-count']))
           commit('SET_EVENTS', response.data)
         })
         .catch(error => {

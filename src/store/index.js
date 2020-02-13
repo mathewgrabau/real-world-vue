@@ -20,7 +20,8 @@ export default new Vuex.Store({
       'education',
       'food',
       'community'
-    ]
+    ],
+    event: {}
   },
   mutations: {
     // event is the payload
@@ -32,6 +33,9 @@ export default new Vuex.Store({
     },
     SET_EVENT_COUNT(state, eventCount) {
       state.eventCount = eventCount
+    },
+    SET_EVENT(state, event) {
+      state.event = event
     }
   },
   // Always want to put mutations inside actions (according to the core Vue team). Idea is to increase scalability of the codebase.
@@ -54,6 +58,15 @@ export default new Vuex.Store({
         })
         .catch(error => {
           console.log(error)
+        })
+    },
+    fetchEvent({ commit }, { id }) {
+      EventService.getEvent(id)
+        .then(response => {
+          commit('SET_EVENT', response.data)
+        })
+        .catch(error => {
+          console.log('There was an error:', error.response)
         })
     }
   },

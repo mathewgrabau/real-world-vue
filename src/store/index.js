@@ -1,15 +1,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import EventService from '@/services/EventService.js'
+// The next import declaration is import all public items into the user namespace
+import * as user from '@/store/modules/user.js'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  modules: {
+    user // use this module
+  },
   state: {
-    user: {
-      id: 'abc123',
-      name: 'Mathew Grabau'
-    },
     events: [],
     eventCount: 0,
     categories: [
@@ -63,6 +64,7 @@ export default new Vuex.Store({
     fetchEvent({ commit, getters }, id) {
       var event = getters.getEventById(id) // See if there's a cached copy
       if (event !== undefined && event !== null) {
+        // Cache hit, has a result.
         commit('SET_EVENT', event)
       } else {
         EventService.getEvent(id)
@@ -75,7 +77,6 @@ export default new Vuex.Store({
       }
     }
   },
-  modules: {},
   getters: {
     categoriesLength: state => {
       return state.categories.length

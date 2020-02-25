@@ -24,7 +24,10 @@ export const mutations = {
 export const actions = {
   // Always want to put mutations inside actions (according to the core Vue team). Idea is to increase scalability of the codebase.
   // NOTE: actions get dispatched from a component. The action takes care of committing the mutation.{
-  createEvent({ commit }, event) {
+  // rootState allows access to the state from outside the current/local scope
+  createEvent({ commit, rootState }, event) {
+    console.log('The user creating the event is ' + rootState.user.user.name)
+
     return EventService.postEvent(event).then(() => {
       // push it into the database here
       commit('ADD_EVENT', event) // Commit the event

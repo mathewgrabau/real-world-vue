@@ -1,5 +1,7 @@
 import EventService from '@/services/EventService.js'
 
+export const namespaced = true // Ensure your actions, etc go out using the event namespace
+
 export const state = {
   events: [],
   eventCount: 0,
@@ -25,15 +27,30 @@ export const actions = {
   // Always want to put mutations inside actions (according to the core Vue team). Idea is to increase scalability of the codebase.
   // NOTE: actions get dispatched from a component. The action takes care of committing the mutation.{
   // rootState allows access to the state from outside the current/local scope
-  createEvent({ commit, rootState }, event) {
+  createEvent({ commit, rootState, dispatch }, event) {
     console.log('The user creating the event is ' + rootState.user.user.name)
 
-    return EventService.postEvent(event).then(() => {
-      // push it into the database here
-      commit('ADD_EVENT', event) // Commit the event
-    })
+    return EventService.postEvent(event)
+      .then(() => {
+        // push it into the database here
+        commit('ADD_EVENT', event) // Commit the event
+        // Add a notification
+        const notification = {
+          type: 'success',
+          message: 'Your event has been created'
+        }
+        dispatch('notification/add', notification, { root: true })
+      })
+      .catch(error => {
+        const notification = {
+          type: 'error',
+          message: 'There was a problem creating your event: ' + error.message
+        }
+        dispatch('notification/add', notification, { root: true })
+        throw error
+      })
   },
-  fetchEvents({ commit }, { perPage, currentPage }) {
+  fetchEvents({ commit, dispatch }, { perPage, currentPage }) {
     EventService.getEvents(perPage, currentPage)
       .then(response => {
         console.log(
@@ -43,10 +60,14 @@ export const actions = {
         commit('SET_EVENTS', response.data)
       })
       .catch(error => {
-        console.log(error)
+        const notification = {
+          type: 'error',
+          message: 'There was a problem fetching events: ' + error.message
+        }
+        dispatch('notification/add', notification, { root: true })
       })
   },
-  fetchEvent({ commit, getters }, id) {
+  fetchEvent({ commit, getters, dispatch }, id) {
     var event = getters.getEventById(id) // See if there's a cached copy
     if (event !== undefined && event !== null) {
       // Cache hit, has a result.
@@ -57,7 +78,11 @@ export const actions = {
           commit('SET_EVENT', response.data)
         })
         .catch(error => {
-          console.log('There was an error:', error.response)
+          const notification = {
+            type: 'error',
+            message: 'There was a problem fetching events: ' + error.message
+          }
+          dispatch('notification/add', notification, { root: true })
         })
     }
   }

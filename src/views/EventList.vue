@@ -25,7 +25,7 @@ export default {
   components: { EventCard },
   created() {
     // Dispatch the event to pull the listing of the events
-    this.$store.dispatch('fetchEvents', {
+    this.$store.dispatch('event/fetchEvents', {
       perPage: this.perPage,
       currentPage: this.currentPage
     })

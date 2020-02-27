@@ -14,11 +14,7 @@
     <p>{{ event.description }}</p>
     <h2>
       Attendees
-      <span class="badge -fill-gradient">
-        {{
-        event.attendees ? event.attendees.length : 0
-        }}
-      </span>
+      <span class="badge -fill-gradient">{{ event.attendees ? event.attendees.length : 0 }}</span>
     </h2>
     <ul class="list-group">
       <li v-for="(attendee, index) in event.attendees" :key="index" class="list-item">
@@ -37,7 +33,7 @@ export default {
     event: state => state.event.event // Different syntax for mapping it, prevent from needing so many updates to this component
   }),
   created() {
-    this.$store.dispatch('fetchEvent', this.id)
+    this.$store.dispatch('event/fetchEvent', this.id)
   }
 }
 </script>

@@ -4,11 +4,7 @@
     <form @submit.prevent="createEvent">
       <label for>Select a category</label>
       <select v-model="event.category">
-        <option v-for="category in categories" :key="category">
-          {{
-          category
-          }}
-        </option>
+        <option v-for="category in categories" :key="category">{{ category }}</option>
       </select>
       <h3>Name and describe your event</h3>
       <div class="field">
@@ -64,7 +60,7 @@ export default {
     createEvent() {
       // Takes care of invoking the action needed to add the event into the database
       this.$store
-        .dispatch('createEvent', this.event)
+        .dispatch('event/createEvent', this.event)
         .then(() => {
           this.event = this.createFreshEvent()
         })

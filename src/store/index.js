@@ -3,13 +3,15 @@ import Vuex from 'vuex'
 // The next import declaration is import all public items into the user namespace
 import * as user from '@/store/modules/user.js'
 import * as event from '@/store/modules/event.js'
+import * as notification from '@/store/modules/notification.js'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
     user, // use this module
-    event
+    event,
+    notification
   },
   state: {
     categories: [

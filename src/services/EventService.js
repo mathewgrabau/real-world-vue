@@ -1,4 +1,5 @@
 import axios from 'axios'
+import NProgress from 'nprogress'
 
 const apiClient = axios.create({
   baseURL: 'http://localhost:3000',
@@ -7,6 +8,19 @@ const apiClient = axios.create({
     Accept: 'application/json',
     'Content-Type': 'application/json'
   }
+})
+
+// Register the hooks/interceptors required to get this functioning.
+apiClient.interceptors.request.use(config => {
+  // Start the progress bar
+  NProgress.start()
+  return config
+})
+
+apiClient.interceptors.response.use(response => {
+  // Finished the response, stop it and return the response
+  NProgress.done()
+  return response
 })
 
 export default {

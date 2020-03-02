@@ -73,7 +73,8 @@ export const actions = {
       // Cache hit, has a result.
       commit('SET_EVENT', event)
     } else {
-      EventService.getEvent(id)
+      // Need to actually return the promise so that it can used properly in the components
+      return EventService.getEvent(id)
         .then(response => {
           commit('SET_EVENT', response.data)
         })

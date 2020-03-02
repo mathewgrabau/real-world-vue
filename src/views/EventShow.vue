@@ -26,14 +26,24 @@
 
 <script>
 import { mapState } from 'vuex'
+import NProgress from 'nprogress'
+import store from '@/store'
 
 export default {
   props: ['id'],
   computed: mapState({
     event: state => state.event.event // Different syntax for mapping it, prevent from needing so many updates to this component
   }),
-  created() {
-    this.$store.dispatch('event/fetchEvent', this.id)
-  }
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    NProgress.start()
+    // the component object (this) is not available during this event handling time, so it's necessary to use
+    // this format to dispatch the store action
+    store.dispatch('event/fetchEvent', routeTo.params.id).then(() => {
+      // Finish the progress bar when the promise is done
+      NProgress.done()
+      next()
+    })
+  },
+  created() {}
 }
 </script>

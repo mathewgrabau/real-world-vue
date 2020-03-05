@@ -74,6 +74,7 @@ export const actions = {
       commit('SET_EVENT', event)
     } else {
       // Need to actually return the promise so that it can used properly in the components
+      // Without it the then() operation won't work.
       return EventService.getEvent(id)
         .then(response => {
           commit('SET_EVENT', response.data)

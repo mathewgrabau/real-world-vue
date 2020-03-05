@@ -72,12 +72,14 @@ export const actions = {
     if (event !== undefined && event !== null) {
       // Cache hit, has a result.
       commit('SET_EVENT', event)
+      return event
     } else {
       // Need to actually return the promise so that it can used properly in the components
       // Without it the then() operation won't work.
       return EventService.getEvent(id)
         .then(response => {
           commit('SET_EVENT', response.data)
+          return response.data // Need to send that back to the client
         })
         .catch(error => {
           const notification = {

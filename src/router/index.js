@@ -26,9 +26,10 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: EventShow,
-    props: true,
+    props: true, // props maps the params (when the events match)
     beforeEnter(routeTo, routeFrom, next) {
-      store.dispatch('event/fetchEvent', routeTo.params.id).then(() => {
+      store.dispatch('event/fetchEvent', routeTo.params.id).then(event => {
+        routeTo.params.event = event
         next() // continue once the promise is done
       })
       // Runs after the global beforeEach

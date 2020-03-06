@@ -5,8 +5,10 @@ export const namespaced = true // Ensure your actions, etc go out using the even
 export const state = {
   events: [],
   eventCount: 0,
-  event: {}
+  event: {},
+  perPage: 3
 }
+
 export const mutations = {
   // event is the payload
   ADD_EVENT(state, event) {
@@ -50,8 +52,9 @@ export const actions = {
         throw error
       })
   },
-  fetchEvents({ commit, dispatch }, { perPage, currentPage }) {
-    EventService.getEvents(perPage, currentPage)
+  fetchEvents({ commit, dispatch, state }, { currentPage }) {
+    // Now accessing the perPage through the state variable.
+    return EventService.getEvents(state.perPage, currentPage)
       .then(response => {
         console.log(
           'the total event count is ' + response.headers['x-total-count']

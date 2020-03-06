@@ -4,7 +4,11 @@
     <form @submit.prevent="createEvent">
       <label for>Select a category</label>
       <select v-model="event.category">
-        <option v-for="category in categories" :key="category">{{ category }}</option>
+        <option v-for="category in categories" :key="category">
+          {{
+          category
+          }}
+        </option>
       </select>
       <h3>Name and describe your event</h3>
       <div class="field">
@@ -39,6 +43,7 @@
 <script>
 // import { mapState } from 'vuex'
 import DatePicker from 'vuejs-datepicker'
+import NProgress from 'nprogress'
 
 export default {
   components: {
@@ -58,13 +63,16 @@ export default {
   },
   methods: {
     createEvent() {
+      NProgress.start()
       // Takes care of invoking the action needed to add the event into the database
       this.$store
         .dispatch('event/createEvent', this.event)
         .then(() => {
           this.event = this.createFreshEvent()
         })
-        .catch(() => {})
+        .catch(() => {
+          NProgress.done() // End in the case of an error
+        })
     },
     createFreshEvent() {
       const user = this.$store.state.user

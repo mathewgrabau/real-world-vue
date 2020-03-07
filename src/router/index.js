@@ -5,6 +5,7 @@ import EventList from '../views/EventList.vue'
 import EventShow from '../views/EventShow.vue'
 import NProgress from 'nprogress'
 import store from '@/store' // Need to access the store to be able to dispatch
+import NotFound from '../views/NotFound.vue'
 
 Vue.use(VueRouter)
 
@@ -37,6 +38,16 @@ const routes = [
       // Use this to start the progress bar
       NProgress.start()
     }
+  },
+  {
+    path: '/404',
+    name: '404',
+    component: NotFound
+  },
+  // This is the catch-all route
+  {
+    path: '*', // anything that does not match previous
+    redirect: { name: '404' }
   }
 ]
 

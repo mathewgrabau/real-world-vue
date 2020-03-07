@@ -70,7 +70,7 @@ export const actions = {
         dispatch('notification/add', notification, { root: true })
       })
   },
-  fetchEvent({ commit, getters, dispatch }, id) {
+  fetchEvent({ commit, getters }, id) {
     var event = getters.getEventById(id) // See if there's a cached copy
     if (event !== undefined && event !== null) {
       // Cache hit, has a result.
@@ -79,18 +79,10 @@ export const actions = {
     } else {
       // Need to actually return the promise so that it can used properly in the components
       // Without it the then() operation won't work.
-      return EventService.getEvent(id)
-        .then(response => {
-          commit('SET_EVENT', response.data)
-          return response.data // Need to send that back to the client
-        })
-        .catch(error => {
-          const notification = {
-            type: 'error',
-            message: 'There was a problem fetching events: ' + error.message
-          }
-          dispatch('notification/add', notification, { root: true })
-        })
+      return EventService.getEvent(id).then(response => {
+        commit('SET_EVENT', response.data)
+        return response.data // Need to send that back to the client
+      })
     }
   }
 }

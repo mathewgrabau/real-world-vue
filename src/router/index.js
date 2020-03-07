@@ -30,10 +30,13 @@ const routes = [
     component: EventShow,
     props: true, // props maps the params (when the events match)
     beforeEnter(routeTo, routeFrom, next) {
-      store.dispatch('event/fetchEvent', routeTo.params.id).then(event => {
-        routeTo.params.event = event
-        next() // continue once the promise is done
-      })
+      store
+        .dispatch('event/fetchEvent', routeTo.params.id)
+        .then(event => {
+          routeTo.params.event = event
+          next() // continue once the promise is done
+        })
+        .catch(() => next({ name: '404', params: { resource: 'event' } }))
       // Runs after the global beforeEach
       // Use this to start the progress bar
       NProgress.start()
@@ -42,12 +45,13 @@ const routes = [
   {
     path: '/404',
     name: '404',
-    component: NotFound
+    component: NotFound,
+    props: true
   },
   // This is the catch-all route
   {
     path: '*', // anything that does not match previous
-    redirect: { name: '404' }
+    redirect: { name: '404', params: { resource: 'page' } }
   }
 ]
 

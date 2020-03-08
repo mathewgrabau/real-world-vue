@@ -6,6 +6,7 @@ import EventShow from '../views/EventShow.vue'
 import NProgress from 'nprogress'
 import store from '@/store' // Need to access the store to be able to dispatch
 import NotFound from '../views/NotFound.vue'
+import NetworkIssue from '../views/NetworkIssue.vue'
 
 Vue.use(VueRouter)
 
@@ -36,7 +37,13 @@ const routes = [
           routeTo.params.event = event
           next() // continue once the promise is done
         })
-        .catch(() => next({ name: '404', params: { resource: 'event' } }))
+        .catch(error => {
+          if (error.response && error.response.status === 404) {
+            next({ name: '404', params: { resource: 'event' } })
+          } else {
+            next({ name: 'network-issue' })
+          }
+        })
       // Runs after the global beforeEach
       // Use this to start the progress bar
       NProgress.start()
@@ -47,6 +54,11 @@ const routes = [
     name: '404',
     component: NotFound,
     props: true
+  },
+  {
+    path: '/network-issue',
+    name: 'network-issue',
+    component: NetworkIssue
   },
   // This is the catch-all route
   {

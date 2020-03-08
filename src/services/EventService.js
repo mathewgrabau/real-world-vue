@@ -7,7 +7,8 @@ const apiClient = axios.create({
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json'
-  }
+  },
+  timeout: 10000
 })
 
 // Register the hooks/interceptors required to get this functioning.

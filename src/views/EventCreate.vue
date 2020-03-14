@@ -11,19 +11,23 @@
         </option>
       </select>
       <h3>Name and describe your event</h3>
-      <div class="field">
-        <label for>Title</label>
-        <input type="text" placeholder="Add an event title" v-model="event.title" />
-      </div>
-      <div class="field">
-        <label for>Description</label>
-        <input type="text" placeholder="Add a description" v-model="event.description" />
-      </div>
+      <BaseInput label="Title" v-model="event.title" type="text" placeholder="Title" class="field" />
+      <BaseInput
+        label="Description"
+        v-model="event.description"
+        type="text"
+        placeholder="Add a description"
+        class="field"
+      />
+
       <h3>Where is your event?</h3>
-      <div class="field">
-        <label for>Location</label>
-        <input type="text" placeholder="Add a location" v-model="event.location" />
-      </div>
+      <BaseInput
+        label="Location"
+        v-model="event.location"
+        type="text"
+        placeholder="Add a location"
+        class="field"
+      />
       <h3>When is your event?</h3>
       <div class="field">
         <label for>Date</label>
@@ -44,10 +48,12 @@
 // import { mapState } from 'vuex'
 import DatePicker from 'vuejs-datepicker'
 import NProgress from 'nprogress'
+import BaseInput from '@/components/BaseInput.vue'
 
 export default {
   components: {
-    DatePicker
+    DatePicker,
+    BaseInput
   },
   data() {
     const times = []
